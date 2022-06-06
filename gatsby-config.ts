@@ -1,8 +1,4 @@
-import type { GatsbyConfig } from 'gatsby';
-
-const config: GatsbyConfig = {
-  // Since `gatsby-plugin-typescript` is automatically included in Gatsby you
-  // don't need to define it here (just if you need to change the options)
+/*
   plugins: [
     {
       resolve: 'gatsby-source-shopify',
@@ -13,7 +9,26 @@ const config: GatsbyConfig = {
       },
     },
     'gatsby-plugin-image',
+  ]
+*/
+import type { GatsbyConfig } from 'gatsby';
+require('dotenv').config();
+
+const config: GatsbyConfig = {
+  plugins: [
+    'gatsby-plugin-image',
+    'gatsby-plugin-sharp',
+    'gatsby-transformer-sharp',
+    {
+      resolve: 'gatsby-source-shopify',
+      options: {
+        storeUrl: process.env.GATSBY_SHOPIFY_STORE_URL,
+        password: process.env.SHOPIFY_APP_PASSWORD,
+        shopifyConnections: ['collections'], // source product collections too
+      },
+    },
   ],
   jsxRuntime: `automatic`,
 };
+
 export default config;
