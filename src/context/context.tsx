@@ -30,29 +30,23 @@ export const Context = ({ children }: contextProp) => {
   const [wishlist, setWishlist] = useState<productProp[]>([]);
 
   const initialSet = useRef(false);
-  const [statArray, setStatArray] = useState<statusProp[]>();
+  const [statArray, setStatArray] = useState<string[]>([
+    'eee',
+    statuses.ITEM_ADDED,
+    'eeee',
+    statuses.ITEM_DELETED
+  ]);
   const passed = useRef(false);
   const msg_no = useRef(-1);
 
-  const settingStatus = ({ id = 0, stat = statuses.LOADING }: statusProp) => {
-    // console.log(statArray);
-    if (id === 0 || statArray === undefined) {
-      setStatArray([{ id, stat }]);
-    } else {
-      const temp = [...statArray!, { id, stat }];
-      // console.log(statArray, temp);
-      setStatArray(temp);
-    }
+  const settingStatus = (stat = statuses.LOADING) => {
+    setStatArray([...statArray, stat]);
   };
-  const resettingStatus = (id:number) => {
-    const temp = statArray?.filter((item, index) => item.id !== id);
-    // console.log('temp minus item', id, ' : ', temp)
-    if (temp?.length !== 0 ) {
-
+  const resettingStatus = () => {
+    const temp = statArray;
+    temp.shift();
+    if (temp !== undefined) {
       setStatArray(temp);
-    } else {
-      setStatArray([]);
-      msg_no.current = -1;
     }
   };
 
@@ -136,12 +130,12 @@ export const Context = ({ children }: contextProp) => {
       const id = ++msg_no.current;
       msg_no.current = id;
       const stat: statuses = statuses.ITEM_ADDED;
-      settingStatus({ id, stat });
+      settingStatus(stat);
     } catch (e) {
       const id = ++msg_no.current;
       msg_no.current = id;
       const stat: statuses = statuses.ITEM_NOT_ADDED;
-      settingStatus({ id, stat });
+      settingStatus(stat);
       // console.log(e);
     }
   };
@@ -182,12 +176,12 @@ export const Context = ({ children }: contextProp) => {
       const id = ++msg_no.current;
       msg_no.current = id;
       const stat: statuses = statuses.ITEM_DELETED;
-      settingStatus({ id, stat });
+      settingStatus(stat);
     } catch (e) {
       const id = ++msg_no.current;
       msg_no.current = id;
       const stat: statuses = statuses.ITEM_NOT_DELETED;
-      settingStatus({ id, stat });
+      settingStatus(stat);
     }
   };
 
@@ -204,15 +198,15 @@ export const Context = ({ children }: contextProp) => {
       resettingStatus,
     }),
     [
-      // addToCart,
-      // deleteFromCart,
+      addToCart,
+      deleteFromCart,
       currentCheckout,
       passed,
-      // editWishlist,
+      editWishlist,
       wishlist,
-      // setfilling,
+      setfilling,
       statArray,
-      // resettingStatus,
+      resettingStatus,
     ],
   );
   return <Provider value={value}>{children}</Provider>;

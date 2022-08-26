@@ -2,7 +2,7 @@ import { productCardProp } from 'type';
 import { Link } from 'gatsby';
 import Heart from './Heart';
 import Amount from './Amount';
-
+ 
 const ProductCard = ({ product, fill }: productCardProp) => {
   const { featuredImage, handle, priceRangeV2, title, variants } = product.node;
 

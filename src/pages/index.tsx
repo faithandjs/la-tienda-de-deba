@@ -3,14 +3,14 @@ import { useEffect } from 'react';
 import '../styles/global.scss';
 import '../styles/banner.scss';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+// import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import useStoreContext from '@/context/context';
 import { graphql } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 
 export default function Home(query: any) {
   const image = getImage(query.data.file);
-  gsap.registerPlugin(ScrollTrigger);
+  // gsap.registerPlugin(ScrollTrigger);
   const { passed } = useStoreContext();
   useEffect(() => {
     document.querySelector('.banner text')

@@ -3,15 +3,15 @@
 
 $l-r-padding: 2.5vw;
 
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration {
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-results-button,
+input[type='search']::-webkit-search-results-decoration {
   display: none;
 }
 
-input[type="search"]::-o-search-decoration,
-input[type="search"]::-o-search-results-button,
-input[type="search"]::-o-search-results-decoration {
+input[type='search']::-o-search-decoration,
+input[type='search']::-o-search-results-button,
+input[type='search']::-o-search-results-decoration {
   display: none;
 }
 .products-and-menu {
@@ -42,6 +42,7 @@ input[type="search"]::-o-search-results-decoration {
         input {
           width: 50%;
           border: 1px solid rgba(124, 124, 124, 0.649);
+          border-right: 0;
           font-size: 1.2rem;
           padding: 5px;
           border-radius: 3px;
@@ -73,14 +74,11 @@ input[type="search"]::-o-search-results-decoration {
           div {
             margin-left: 10px;
             button {
-              font-size: 1.05rem;
+              text-transform: uppercase;
+              font-size: 0.8rem;
               color: inherit;
               margin: 5px;
               padding: 5px 7px;
-
-              // &:hover, &.selected{
-              //   color: inherit;
-              // }
             }
           }
         }
@@ -94,7 +92,7 @@ input[type="search"]::-o-search-results-decoration {
           height: 3rem;
           width: 3rem;
           font-weight: 100;
-          
+
           border: 1px solid rgba(49, 49, 49, 0.411);
           border-radius: 50%;
           display: flex;
@@ -135,13 +133,14 @@ input[type="search"]::-o-search-results-decoration {
       top: 2vh;
       padding: calc(10px + clamp(10px, 3vh, 22px)) $l-r-padding 0;
       &.text {
-        font-size: 1.3rem;
+        font-size: 1rem;
         text-align: start;
         margin: clamp(10px, 3vh, 22px);
         margin-bottom: 0;
         span {
           font-weight: bold;
-          font-style: italic;
+          // font-style: italic;
+          text-transform: uppercase;
         }
       }
     }
@@ -174,6 +173,7 @@ input[type="search"]::-o-search-results-decoration {
       width: fit-content;
       z-index: 10;
       position: absolute;
+      background: rgba(0, 0, 0, 0.514);
       left: 0;
       bottom: 0;
       top: 0;
@@ -181,6 +181,21 @@ input[type="search"]::-o-search-results-decoration {
       .search {
         .x {
           display: flex;
+        }
+        .input-box {
+          input {
+            color: white;
+            border: 1px solid rgba(206, 206, 206, 0.649);
+          }
+        }
+        .options {
+          section {
+            div {
+              button {
+                color: rgb(255, 255, 255);
+              }
+            }
+          }
         }
       }
     }

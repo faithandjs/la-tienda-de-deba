@@ -1,6 +1,6 @@
 import '../styles/layout.scss';
 import { Link } from 'gatsby';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import useStoreContext from '@/context/context';
 import about from '../icons/about.png';
@@ -22,35 +22,37 @@ const Layout = ({ children, page }: prop) => {
   gsap.registerPlugin(ScrollTrigger);
   const { currentCheckout, resettingStatus, statArray } = useStoreContext();
   useEffect(() => {
-    ScrollTrigger.create({
-      trigger: 'header',
-      start: '180px top',
-      endTrigger: 'footer',
-      end: 'bottom bottom',
-      scrub: 0.5,
-      onUpdate: (self) => {
-        if (self.direction === -1) {
-          gsap
-            .to('header.products, header.wishlist, header.cart', {
-              y: 0,
-              ease: 'slow(0.7, 0.7, false)',
-              paused: true,
-              duration: 0.2,
-            })
-            .progress(1);
-        }
-        if (self.direction === 1) {
-          gsap
-            .to('header.products, header.wishlist,  header.cart', {
-              y: '-200%',
-              ease: 'power3.in',
-              paused: true,
-              duration: 0.2,
-            })
-            .progress(1);
-        }
-      },
-    });
+    if (page === 'wishlist' || page === 'products' || page === 'cart') {
+      ScrollTrigger.create({
+        trigger: 'header',
+        start: '180px top',
+        endTrigger: 'footer',
+        end: 'bottom bottom',
+        scrub: 0.5,
+        onUpdate: (self) => {
+          if (self.direction === -1) {
+            gsap
+              .to(`header.${page}`, {
+                y: 0,
+                ease: 'slow(0.7, 0.7, false)',
+                paused: true,
+                duration: 0.2,
+              })
+              .progress(1);
+          }
+          if (self.direction === 1) {
+            gsap
+              .to(`header.${page}`, {
+                y: '-200%',
+                ease: 'power3.in',
+                paused: true,
+                duration: 0.2,
+              })
+              .progress(1);
+          }
+        },
+      });
+    }
     if (page === 'home') {
       let logos = document.querySelectorAll('.large-logos li');
       let logoBox = document.querySelectorAll('.large-logos');
@@ -69,14 +71,22 @@ const Layout = ({ children, page }: prop) => {
       reveal.play();
     }
   });
-  const classes = `children ` + (page === 'about' ? '' : page);
-
-  const messageElement = <></>;
   useEffect(() => {
-    if (statArray !== undefined && statArray.length !== 0) {
-      // console.log(statArray);
-    }
-  }, [statArray]);
+    const interv = setInterval(() => {
+      statArray.length > 0 ? removeNotif() : clearInterval(interv);
+    }, 2500);
+  }, [statArray.length]);
+
+  const removeNotif = () => {
+    const item0 = document.querySelector(`.item0`);
+    gsap.to(item0, {
+      ease: 'none',
+      duration: 0.5,
+      opacity: 0,
+    });
+    resettingStatus();
+  };
+  const classes = `children ` + (page === 'about' ? '' : page);
   return (
     <>
       <header className={page}>
@@ -122,47 +132,34 @@ const Layout = ({ children, page }: prop) => {
       </header>
       <section className={classes}>
         <div className="msg">
-          {statArray !== undefined ? (
-            statArray.map((item: statusProp, index: number) => {
-              setTimeout(() => {
-                gsap.to(`.item${item.id}`, {
-                  x: '-100vh',
-                  ease: 'none',
-                  duration: 0.5,
-                  opacity: 0,
-                });
-                setTimeout(() => {
-                  resettingStatus(item.id);
-                  // console.log('reset', item.id);
-                }, 2000);
-              }, 3500);
+          {statArray.map((item: string, index: number) => {
+            if (index === 0) {
+              return (
+                <div
+                  className={`item${index}  ${
+                    item === statuses.ITEM_ADDED ||
+                    item === statuses.ITEM_DELETED
+                      ? 'success'
+                      : 'error'
+                  }`}
+                  key={index}
+                >
+                  {item}
+                </div>
+              );
+            }
+          })}
 
-              if (index === 0) {
-                return (
-                  <div
-                    className={`item${item.id} ${
-                      item.stat === statuses.ITEM_ADDED ||
-                      item.stat === statuses.ITEM_DELETED
-                        ? 'success'
-                        : 'error'
-                    }`}
-                    key={index}
-                  >
-                    {item.stat}
-                  </div>
-                );
-              }
-            })
-          ) : (
+          {/* ) : (
             <></>
-          )}
+          )} */}
         </div>
         {children}
       </section>
 
       <footer className={page}>
         <div className=" large">
-          {page === 'home' ? <div className="logo">vd</div> : <></>}{' '}
+          {/* {page === 'home' ? <div className="logo">vd</div> : <></>}{' '} */}
           <p>
             &copy; 2022
             <a target="_blank" href="https://faithh.netlify.app/">
@@ -171,7 +168,7 @@ const Layout = ({ children, page }: prop) => {
             </a>
           </p>
         </div>
-        {page === 'home' ? (
+        {/* {page === 'home' ? (
           <div className="large-logos-box">
             <ul className=" large-logos">
               <li className="versace">
@@ -314,7 +311,7 @@ const Layout = ({ children, page }: prop) => {
           </div>
         ) : (
           <></>
-        )}
+        )} */}
 
         <ul id="contact">
           <li>

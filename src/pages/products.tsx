@@ -7,12 +7,12 @@ import '../styles/products.scss';
 import { useEffect, useRef, useState } from 'react';
 import { type } from 'os';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+// import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import search from '../icons/search.png';
 import X from '../icons/close.png';
 
 const Products = ({ data }: productsProp) => {
-  gsap.registerPlugin(ScrollTrigger);
+  // gsap.registerPlugin(ScrollTrigger);
   const { editWishlist, wishlist, setfilling } = useStoreContext();
   const [input, setInput] = useState('');
   const [showing, setShowing] = useState('');
