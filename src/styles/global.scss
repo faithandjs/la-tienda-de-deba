@@ -18,7 +18,7 @@ body {
   font-size: 18px;
 }
 body {
-  background-color: $background;
+  // background-color: $background;
   height: 100vh;
   color: $text;
   min-width: 310px;
@@ -33,7 +33,6 @@ ul {
 }
 section {
   &.banner,
-  &.iotd,
   &.shop,
   &.quote {
     padding: clamp(25px, 9vh, 60px) 0;
@@ -104,7 +103,7 @@ a {
   &:hover {
     cursor: pointer;
     color: #ffffff !important;
-    background-color: rgba(0, 0, 0, 0.541);
+    background-color: rgba(0, 0, 0, 0.637);
   }
   &.selected {
     color: #ffffff !important;

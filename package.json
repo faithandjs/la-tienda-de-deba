@@ -30,6 +30,8 @@
     ]
   },
   "dependencies": {
+    "@paystack/inline-js": "2.12.6",
+    "@types/paystack": "2.0.1",
     "@types/shopify-buy": "2.10.10",
     "dotenv": "16.0.1",
     "gatsby": "4.18.2",

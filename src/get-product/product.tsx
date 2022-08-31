@@ -424,6 +424,9 @@ const Product = ({ pageContext, data }: prop) => {
               >
                 add
               </button>
+              {/* <a href="https://paystack.com/pay/3s1i9pc79s"> */}
+                <button className="now">pay now</button>
+              {/* </a> */}
             </div>
           </section>
         </div>

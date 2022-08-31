@@ -30,12 +30,7 @@ export const Context = ({ children }: contextProp) => {
   const [wishlist, setWishlist] = useState<productProp[]>([]);
 
   const initialSet = useRef(false);
-  const [statArray, setStatArray] = useState<string[]>([
-    'eee',
-    statuses.ITEM_ADDED,
-    'eeee',
-    statuses.ITEM_DELETED
-  ]);
+  const [statArray, setStatArray] = useState<string[]>([]);
   const passed = useRef(false);
   const msg_no = useRef(-1);
 

@@ -126,6 +126,7 @@ const Cart = () => {
           currentCheckout.lineItems.length > 0 && (
             <div className="checkout">
               <Amount amount={currentCheckout.totalPriceV2.amount}></Amount>
+              {/* <a href="https://paystack.com/pay/3s1i9pc79s"></a> */}
               <button>checkout</button>
             </div>
           )

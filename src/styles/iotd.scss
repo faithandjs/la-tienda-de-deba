@@ -1,0 +1,170 @@
+section.iotd {
+  h2 {
+    padding: 20px 0;
+    font-size: 2rem;
+    text-align: center;
+    border-bottom: 1px solid;
+    text-transform: uppercase;
+  }
+  .iotd-details {
+    overflow: hidden;
+    padding: 25px 0 20px;
+    display: flex;
+    justify-content: center;
+    .img-box {
+      img {
+        object-fit: cover;
+        object-position: bottom;
+        border-radius: 50%;
+      }
+    }
+    .image0 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32%;
+      &.img-box {
+        img {
+          height: 300px;
+          width: 300px;
+        }
+      }
+    }
+    .details-box {
+      width: 33%;
+      display: flex;
+      align-items: center;
+      .details {
+        h3 {
+          text-transform: uppercase;
+          font-size: 1.1rem;
+          padding: 6px 0;
+          &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+          }
+        }
+        p {
+          padding: 6px 0;
+        }
+        .amount {
+          font-size: 1.2rem;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .images {
+      width: 35%;
+      .img-box {
+        width: 100%;
+        img {
+          height: 200px;
+          width: 200px;
+        }
+        &:first-child {
+          padding-left: 8%;
+        }
+        &:last-child {
+          padding-right: 8%;
+          text-align: end;
+        }
+      }
+    }
+  }
+}
+section.new-arrivals {
+}
+@media screen and (max-width: 1024px) {
+  section.iotd {
+    .iotd-details {
+      .image0 {
+        &.img-box {
+          img {
+            height: 260px;
+            width: 260px;
+          }
+        }
+      }
+      .details-box {
+        width: 28%;
+        text-align: center;
+      }
+      .images {
+        .img-box {
+          img {
+            height: 170px;
+            width: 170px;
+          }
+          &:last-child {
+            // display: none;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  section.iotd {
+    .iotd-details {
+      position: relative;
+      .image0 {
+        width: 40%;
+        &.img-box {
+          img {
+            width: 200px;
+            height: 200px;
+          }
+        }
+      }
+      .details-box {
+        width: 60%;
+        display: flex;
+        align-items: center;
+      }
+      .images {
+        position: absolute;
+        right: 0;
+        width: 55%;
+        height: 100%;
+        .img-box {
+          position: absolute;
+          height: 100%;
+          img {
+            width: 130px;
+            opacity: 0.13;
+            height: 130px;
+          }
+          &:first-child {
+            padding: 0;
+            bottom: -45%;
+          }
+          &:last-child {
+            top: -12%;
+            right: -2px;
+            padding: 0;
+            text-align: end;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 500px) {
+  section.iotd {
+    .iotd-details {
+      display: block;
+      .image0 {
+        width: 100%;
+      }
+      .details-box {
+        width: 100%;
+        .details {
+        }
+      }
+      .images {
+        display: none;
+      }
+    }
+  }
+}
