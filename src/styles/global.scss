@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
 
 @import './colors';
 @import './mixin';
@@ -23,7 +24,11 @@ body {
   color: $text;
   min-width: 310px;
 }
-
+@media screen and (max-width: 768px) {
+  body{
+    font-size: 16px;
+  }
+}
 #___gatsby,
 #gatsby-focus-wrapper {
   min-height: -webkit-fill-available;
@@ -179,4 +184,50 @@ $l-r-padding: 2.5vw;
 .empty {
   text-align: center;
   width: -webkit-fill-available;
+}
+section.sale {
+  overflow: hidden;
+  padding: 20px 0;
+  background-color: rgb(24, 24, 24);
+  position: relative;
+  &::before,
+  &::after {
+    content: '';
+    background-color: white;
+    position: absolute;
+    width: 50px;
+    height: 100px;
+    z-index: 1;
+    transform: translateY(-50%);
+  }
+  &::before {
+    top: 50%;
+    left: -30px;
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%);
+  }
+  &::after {
+    top: 50%;
+    right: -30px;
+    clip-path: polygon(50% 0, 0% 50%, 50% 100%);
+  }
+  .stripes {
+    background-color: white;
+    height: 7px;
+  }
+  .text-box {
+    display: flex;
+    justify-content: center;
+    div {
+      span {
+        color: rgb(235, 63, 20);
+        font-family: 'DM Serif Display', serif;
+      }
+      text-transform: uppercase;
+      color: white;
+      white-space: nowrap;
+      font-size: 6vw;
+      padding: 10px 0;
+      font-family: 'DM Serif Display', serif;
+    }
+  }
 }

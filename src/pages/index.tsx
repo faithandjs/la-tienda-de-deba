@@ -1,8 +1,7 @@
 import Layout from '@/components/Layout';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/global.scss';
-import '../styles/banner.scss';
-import '../styles/iotd.scss';
+import '../styles/index.scss';
 import gsap from 'gsap';
 import { Link } from 'gatsby';
 // import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -10,15 +9,76 @@ import useStoreContext from '@/context/context';
 import { graphql } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import Amount from '@/components/Amount';
-
+import Sale from '@/components/sale';
 export default function Home(query: any) {
+  const [days, setDays] = useState(0);
+  const [hours, setHours] = useState(0);
+  const [mins, setMins] = useState(0);
+  const [secs, setSecs] = useState(0);
   // gsap.registerPlugin(ScrollTrigger);
   const image = getImage(query.data.file);
   const { handle, media, tags, title, priceRangeV2 } =
     query.data.shopifyProduct;
+  const data = query.data.allShopifyProduct.edges;
   const { passed } = useStoreContext();
+  const monthConverter = (num: number) => {
+    switch (num) {
+      case 0:
+        return 'January';
+      case 1:
+        return 'Feburary';
+      case 2:
+        return 'March';
+      case 3:
+        return 'April';
+      case 4:
+        return 'May';
+      case 5:
+        return 'June';
+      case 6:
+        return 'July';
+      case 7:
+        return 'August';
+      case 8:
+        return 'September';
+      case 9:
+        return 'October';
+      case 10:
+        return 'November';
+      case 11:
+        return 'December';
+      default:
+        return 'January';
+        break;
+    }
+  };
+  const countdown = () => {
+    const today = new Date();
+    let month;
+    let year = today.getFullYear();
+    if (today.getMonth() < 6 || today.getMonth() === 11) {
+      month = monthConverter(6);
+      if (today.getMonth() === 11) year = year + 1;
+    }
+    if (today.getMonth() >= 6 && today.getMonth() !== 11) {
+      month = monthConverter(11);
+    }
+    const salesDate = new Date(`${month} 1, ${year} 00:00:00`);
+    const diff = salesDate.getTime() - today.getTime();
+
+    const ddays = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const dhours = Math.floor(
+      (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+    );
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    ddays !== days && setDays(ddays);
+    dhours !== hours && setHours(dhours);
+    minutes !== mins && setMins(minutes);
+    seconds !== secs && setSecs(seconds);
+  };
   useEffect(() => {
-    console.log(handle, media, tags, title);
+    console.log(data);
     document.querySelector('.banner text')
       ? (document.querySelector('.banner text')!.textContent =
           'we love designers!')
@@ -57,18 +117,25 @@ export default function Home(query: any) {
           yPercent: 0,
         });
     }
+    setInterval(countdown, 2500);
     passed.current = true;
   });
 
+  const addDigit = (num: number) => {
+    if (num.toString().length === 1) return `0` + num;
+    return num;
+  };
   return (
     <Layout page="home">
       <>
         <section className="banner">
           <div className="img-box">
             {image !== undefined && (
-              <GatsbyImage image={image} alt="banner: designer bag" />
+              <GatsbyImage
+                image={image}
+                alt="banner: models by a window in a storey building in black and white"
+              />
             )}
-            {/* <img src={tower} alt="" /> */}
           </div>
           <div className="text">
             <svg>
@@ -84,9 +151,9 @@ export default function Home(query: any) {
             </div>
           </div>
         </section>
-        <section className="iotd">
-          <h2>Item of the Day</h2>
-          <div className="iotd-details">
+        <section className="best">
+          <h2>Best seller of the week</h2>
+          <div className="best-details">
             <div className={`img-box image0`}>
               <img
                 src={media[0].preview.image.src}
@@ -122,9 +189,61 @@ export default function Home(query: any) {
             </div>{' '}
           </div>
         </section>
-        {/* <section className="new-arrivals">
-          <h2>New Arrivals</h2>
-        </section> */}
+        <Sale />
+        <section className="on-sale">
+          <div className="header">
+            <h2>On Sale</h2>
+            <ul>
+              <li>
+                <div className="text">days</div>
+                <div className="det">{addDigit(days)}</div>
+              </li>
+              <li>
+                <div className="text">hours</div>
+                <div className="det">{addDigit(hours)}</div>
+              </li>
+              <li>
+                <div className="text">minutes</div>
+                <div className="det">{addDigit(mins)}</div>
+              </li>
+              <li>
+                <div className="text">seconds</div>
+                <div className="det">{addDigit(secs)}</div>
+              </li>
+            </ul>
+          </div>
+          <div className="section">
+            {data.map((item: any, index: number) => {
+              const { featuredImage, priceRangeV2, title, handle } = item.node;
+              const amount = priceRangeV2.maxVariantPrice.amount;
+              if (
+                title === 'balenciaga hourglass crocodile embossed' ||
+                title === 'Dior my ABCDIOR bag' ||
+                title === 'LV Alma BB Bag' ||
+                title === 'LV Over The Moon Bag' ||
+                title === 'NÉONOÉ BB' ||
+                title === 'SPEEDY BANDOULIÈRE 20'
+              ) {
+                return (
+                  <div className="na-box">
+                    <div className="img-box">
+                      <img src={featuredImage.src} alt={`image of ${title}`} />
+                    </div>
+                    <div className="details">
+                      <Link to={`/products/${handle}`}>
+                        <h4>{title}</h4>
+                      </Link>
+                      <div className="amounts">
+                        <Amount amount={amount} />
+                        <Amount amount={amount - amount * 0.3} />
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+            })}
+          </div>
+        </section>
       </>
     </Layout>
   );
@@ -149,6 +268,22 @@ export const pageQuery = graphql`
         preview {
           image {
             src
+          }
+        }
+      }
+    }
+    allShopifyProduct(filter: { tags: { eq: "bag" } }) {
+      edges {
+        node {
+          featuredImage {
+            src
+          }
+          title
+          handle
+          priceRangeV2 {
+            maxVariantPrice {
+              amount
+            }
           }
         }
       }
