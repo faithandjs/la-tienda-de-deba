@@ -15,6 +15,7 @@ export default function Home(query: any) {
   const [hours, setHours] = useState(0);
   const [mins, setMins] = useState(0);
   const [secs, setSecs] = useState(0);
+  const [mnth, setMnth] = useState('')
   // gsap.registerPlugin(ScrollTrigger);
   const image = getImage(query.data.file);
   const { handle, media, tags, title, priceRangeV2 } =
@@ -54,7 +55,7 @@ export default function Home(query: any) {
   };
   const countdown = () => {
     const today = new Date();
-    let month;
+    let month = '';
     let year = today.getFullYear();
     if (today.getMonth() < 6 || today.getMonth() === 11) {
       month = monthConverter(6);
@@ -63,6 +64,7 @@ export default function Home(query: any) {
     if (today.getMonth() >= 6 && today.getMonth() !== 11) {
       month = monthConverter(11);
     }
+    month !== mnth && setMnth(month)
     const salesDate = new Date(`${month} 1, ${year} 00:00:00`);
     const diff = salesDate.getTime() - today.getTime();
 
@@ -78,7 +80,6 @@ export default function Home(query: any) {
     seconds !== secs && setSecs(seconds);
   };
   useEffect(() => {
-    console.log(data);
     document.querySelector('.banner text')
       ? (document.querySelector('.banner text')!.textContent =
           'we love designers!')
@@ -189,7 +190,7 @@ export default function Home(query: any) {
             </div>{' '}
           </div>
         </section>
-        <Sale />
+        <Sale month={mnth}/>
         <section className="on-sale">
           <div className="header">
             <h2>On Sale</h2>
@@ -225,7 +226,7 @@ export default function Home(query: any) {
                 title === 'SPEEDY BANDOULIÈRE 20'
               ) {
                 return (
-                  <div className="na-box">
+                  <div className="na-box" key={index}>
                     <div className="img-box">
                       <img src={featuredImage.src} alt={`image of ${title}`} />
                     </div>
