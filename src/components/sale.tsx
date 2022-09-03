@@ -6,7 +6,7 @@ const Sale = ({ month }: { month: string }) => {
       <div className="stripes"></div>
       <div className="text-box">
         <div>
-          sales! <span>30%</span> off, all {month}!
+          sales! <span>70%</span> off, all {month}!
         </div>
       </div>
       <div className="stripes"></div>

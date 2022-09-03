@@ -61,6 +61,7 @@ img {
   }
 }
 a {
+  width: 100%;
   color: unset;
   text-decoration: none;
   max-width: max-content;
@@ -135,7 +136,8 @@ $l-r-padding: 2.5vw;
         h3,
         h4,
         .flex p,
-        .extra p span {
+        .extra p span 
+        {
           @include clipText;
         }
       }
@@ -174,7 +176,7 @@ $l-r-padding: 2.5vw;
         span {
           text-transform: uppercase;
           font-weight: bold;
-          font-size: 1.2rem;
+          font-size: 1.01rem;
         }
       }
     }
@@ -230,4 +232,7 @@ section.sale {
       font-family: 'DM Serif Display', serif;
     }
   }
+}
+.amount span{
+  font-family: 'Times New Roman', Times, serif;
 }

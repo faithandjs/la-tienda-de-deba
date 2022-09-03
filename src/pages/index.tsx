@@ -15,7 +15,7 @@ export default function Home(query: any) {
   const [hours, setHours] = useState(0);
   const [mins, setMins] = useState(0);
   const [secs, setSecs] = useState(0);
-  const [mnth, setMnth] = useState('')
+  const [mnth, setMnth] = useState('');
   // gsap.registerPlugin(ScrollTrigger);
   const image = getImage(query.data.file);
   const { handle, media, tags, title, priceRangeV2 } =
@@ -64,7 +64,7 @@ export default function Home(query: any) {
     if (today.getMonth() >= 6 && today.getMonth() !== 11) {
       month = monthConverter(11);
     }
-    month !== mnth && setMnth(month)
+    month !== mnth && setMnth(month);
     const salesDate = new Date(`${month} 1, ${year} 00:00:00`);
     const diff = salesDate.getTime() - today.getTime();
 
@@ -153,7 +153,7 @@ export default function Home(query: any) {
           </div>
         </section>
         <section className="best">
-          <h2>Best seller of the week</h2>
+          <h2>Best seller of the month</h2>
           <div className="best-details">
             <div className={`img-box image0`}>
               <img
@@ -163,9 +163,10 @@ export default function Home(query: any) {
             </div>
             <div className="details-box">
               <div className="details">
-                <h3>
-                  <Link to={`/products/${handle}`}> {title} </Link>
-                </h3>
+                <Link to={`/products/${handle}`}>
+                  {' '}
+                  <h3>{title}</h3>
+                </Link>
 
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -190,7 +191,7 @@ export default function Home(query: any) {
             </div>{' '}
           </div>
         </section>
-        <Sale month={mnth}/>
+        <Sale month={mnth} />
         <section className="on-sale">
           <div className="header">
             <h2>On Sale</h2>
@@ -236,7 +237,7 @@ export default function Home(query: any) {
                       </Link>
                       <div className="amounts">
                         <Amount amount={amount} />
-                        <Amount amount={amount - amount * 0.3} />
+                        <Amount amount={amount - amount * 0.7} />
                       </div>
                     </div>
                   </div>
