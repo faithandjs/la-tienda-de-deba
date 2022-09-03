@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe&display=swap');
+@import './colors';
 $weLove: rgba(255, 255, 255, 0.827);
 
 .gatsby-image-wrapper {
@@ -178,20 +180,27 @@ section.on-sale {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    padding: 10px 0 20px;
+    padding: 20px 0;
     h2 {
+      display: none;
       font-size: 6vw;
-      color:  rgb(235, 63, 20);
+      color: rgb(255, 255, 255);
       letter-spacing: 2px;
       font-weight: 400;
-      font-family: 'DM Serif Display', serif;
+      // font-family: 'DM Serif Display', serif;
+      font-family: 'Alumni Sans Pinstripe', sans-serif;
     }
     ul {
       display: flex;
-      width: 65%;
-      justify-content: center;
+      width: 70%;
+      justify-content: space-evenly;
       li {
         padding: 0 13px;
+        &:last-child {
+          .det {
+            color: white;
+          }
+        }
         div {
           text-align: center;
         }
@@ -202,6 +211,7 @@ section.on-sale {
         .det {
           font-family: 'DM Serif Display', serif;
           font-size: 5vw;
+          color: rgb(167, 167, 167);
         }
       }
     }
@@ -213,7 +223,7 @@ section.on-sale {
     .na-box {
       overflow: hidden;
       position: relative;
-      padding:10px 0 13px;
+      padding: 10px 0 13px;
       height: max-content;
       .img-box {
         height: 84%;
@@ -233,7 +243,7 @@ section.on-sale {
         h4 {
           text-transform: capitalize;
           padding: 0 4px;
-          &:hover{
+          &:hover {
             text-decoration: underline;
           }
         }
@@ -388,11 +398,10 @@ section.on-sale {
     .header {
       justify-content: space-evenly;
       ul {
-        width: max-content;
-        display: block;
+        // width: max-content;
+        // display: block;
         li {
-          display: flex;
-          align-items: baseline;
+      
           div {
             padding: 0 3px;
           }
@@ -402,8 +411,9 @@ section.on-sale {
           }
           .det {
             order: 1;
-            font-size: 4vw;
+            // font-size: 4vw;
           }
+         
         }
       }
     }
