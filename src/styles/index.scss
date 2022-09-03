@@ -172,14 +172,16 @@ section.best {
 }
 section.on-sale {
   .header {
-    background-color: rgb(24, 24, 24);
+    background-color: rgb(39, 38, 38);
+    // background-color: rgb(24, 24, 24);
     color: white;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    padding-bottom: 20px;
+    padding: 10px 0 20px;
     h2 {
       font-size: 6vw;
+      color:  rgb(235, 63, 20);
       letter-spacing: 2px;
       font-weight: 400;
       font-family: 'DM Serif Display', serif;
@@ -239,10 +241,8 @@ section.on-sale {
           display: flex;
           justify-content: center;
           .amount {
-            padding: 0 3px;
-            span {
-              // font-size: 1.1rem;
-            }
+            font-weight: bold;
+            padding: 0 4px;
             &:first-child {
               position: relative;
               &::after {
@@ -294,9 +294,6 @@ section.on-sale {
           img {
             height: 150px;
             width: 150px;
-          }
-          &:last-child {
-            // display: none;
           }
         }
       }
@@ -381,8 +378,6 @@ section.on-sale {
       }
       .details-box {
         width: 100%;
-        .details {
-        }
       }
       .images {
         display: none;

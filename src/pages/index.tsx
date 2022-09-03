@@ -118,7 +118,7 @@ export default function Home(query: any) {
           yPercent: 0,
         });
     }
-    setInterval(countdown, 2500);
+    setInterval(countdown, 1500);
     passed.current = true;
   });
 

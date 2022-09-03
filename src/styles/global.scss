@@ -19,7 +19,7 @@ body {
   font-size: 18px;
 }
 body {
-  // background-color: $background;
+  background-color: $background;
   height: 100vh;
   color: $text;
   min-width: 310px;
@@ -103,8 +103,7 @@ a {
   border-radius: 3px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(153, 153, 153, 0.411);
-  button {
-  }
+ 
   &:hover {
     cursor: pointer;
     color: #ffffff !important;
@@ -188,7 +187,8 @@ $l-r-padding: 2.5vw;
 section.sale {
   overflow: hidden;
   padding: 20px 0;
-  background-color: rgb(24, 24, 24);
+  background-color: $salesOrange;
+  // background-color: rgb(24, 24, 24);
   position: relative;
   &::before,
   &::after {
@@ -219,7 +219,7 @@ section.sale {
     justify-content: center;
     div {
       span {
-        color: rgb(235, 63, 20);
+        color: black;
         font-family: 'DM Serif Display', serif;
       }
       text-transform: uppercase;
