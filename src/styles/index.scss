@@ -105,7 +105,8 @@ section.on-sale {
   h4 {
     &:hover {
       cursor: pointer;
-      @include clipText;
+      // @include clipText;
+      text-decoration: underline;
     }
   }
 }
