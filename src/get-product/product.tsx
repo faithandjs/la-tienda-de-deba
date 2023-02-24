@@ -43,9 +43,11 @@ const Product = ({ pageContext, data }: prop) => {
   const fill = setfilling(title);
   const tag = useRef(tags[Math.round(Math.random() * (tags.length - 1))]);
   const recommendedArray = useRef<productProp[]>([]);
-  const details = localStorage.getItem('details')
-    ? JSON.parse(localStorage.getItem('details')!)
-    : null;
+  const [details, setDetails] = useState<null | {
+    name: string;
+    email: string;
+  }>(null);
+
   const settingOptions = () => {
     let holderArray: any[] = [];
     variants?.map((item) => {
@@ -131,7 +133,13 @@ const Product = ({ pageContext, data }: prop) => {
     const arr = str.split(' ');
     return arr.filter((word) => word !== '').length;
   }
-
+  useEffect(() => {
+    setDetails(
+      localStorage.getItem('details')
+        ? JSON.parse(localStorage.getItem('details')!)
+        : null,
+    );
+  }, []);
   useEffect(() => {
     let holder: string[] = [];
     variants![0].selectedOptions.map((item) => holder.push(item.name));

@@ -29,9 +29,17 @@ const Cart = () => {
   const { deleteFromCart, currentCheckout } = useStoreContext();
   const [currentI, setCurrentI] = useState<{ id: string; title: string }>();
   const [opened, setOpened] = useState(false);
-  const details = localStorage.getItem('details')
-    ? JSON.parse(localStorage.getItem('details')!)
-    : null;
+  const [details, setDetails] = useState<null | {
+    name: string;
+    email: string;
+  }>(null);
+  useEffect(() => {
+    setDetails(
+      localStorage.getItem('details')
+        ? JSON.parse(localStorage.getItem('details')!)
+        : null,
+    );
+  }, []);
   const CartCard = ({ id, quantity, variant, title }: prop) => {
     const seperate = () => {
       const arr = Array.from(variant.title);
