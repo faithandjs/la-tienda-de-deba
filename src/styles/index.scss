@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe&display=swap');
 @import './colors';
 @import './mixin';
-$weLove: rgba(255, 255, 255, 0.827);
+$weLove: #ffffffd3;
 
 .gatsby-image-wrapper {
   position: unset !important;
@@ -10,7 +10,8 @@ $weLove: rgba(255, 255, 255, 0.827);
 }
 section.banner {
   padding: 0;
-  height: calc(86.5vh + 100px);
+  height: 100vh;
+  // height: calc(86.5vh + 100px);
   position: relative;
   .img-box {
     width: 100%;
@@ -27,7 +28,7 @@ section.banner {
     left: 0;
     right: 0;
     bottom: 0;
-    height: calc(86.5vh + 100px);
+    height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.301);
     svg {
@@ -79,6 +80,11 @@ section.banner {
         }
       }
     }
+  }
+  .arrow-down {
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
   }
 }
 

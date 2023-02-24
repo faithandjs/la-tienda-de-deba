@@ -1,6 +1,7 @@
 import { graphql } from 'gatsby';
 import ProductCard from '@/components/ProductCard';
 import { productsProp, productProp, productDetails } from 'type';
+import { PaystackButton } from 'react-paystack';
 import Layout from '@/components/Layout';
 import useStoreContext from '@/context/context';
 import '../styles/products.scss';
@@ -8,8 +9,8 @@ import { useEffect, useRef, useState } from 'react';
 import { type } from 'os';
 import gsap from 'gsap';
 // import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import search from '../icons/search.png';
-import X from '../icons/close.png';
+import search from '../Assets/icons/search.png';
+import X from '../Assets/icons/close.png';
 
 const Products = ({ data }: productsProp) => {
   // gsap.registerPlugin(ScrollTrigger);

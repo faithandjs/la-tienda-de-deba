@@ -192,56 +192,7 @@
         }
       }
     }
-    .btn-box {
-      margin-top: 3vh;
-      width: 100%;
-      display: flex;
-      justify-content: flex-end;
-      button {
-        width: max-content;
-        font-size: 0.9rem;
-        font-weight: bold;
-        text-transform: uppercase;
-        position: relative;
-        padding: 9px clamp(16px, 5vw, 25px);
-        margin: 5px;
-        color: $text;
-        z-index: 1;
-        border-radius: 1px;
-        border: 1px solid rgba(128, 120, 120, 0.596);
-        background-color: rgba(61, 56, 56, 0.295);
-        &.now {
-          color: #fff;
-          background-color: rgb(0, 0, 0);
-        }
-        &::after {
-          // z-index: -1;
-          // content: '';
-          // width: 100%;
-          // height: 100%;
-          // position: absolute;
-          // top: 0;
-          // left: 0;
-          // background-color: rgba(61, 56, 56, 0.295);
-          // filter: blur(3px);
-        }
-        &:hover {
-          transform: translateY(-2px);
-          color: white;
-          background-color: hsl(0, 0%, 0%);
-          border-color: rgba(170, 167, 168, 0.144);
-          &.now {
-          }
-          &::after {
-            filter: blur(0px);
-            background-color: rgba(0, 0, 0, 0.938);
-          }
-        }
-        &:active {
-          transform: translateY(1px);
-        }
-      }
-    }
+    //HERE
   }
 }
 .recommend {
@@ -261,6 +212,56 @@
           object-fit: cover;
         }
       }
+    }
+  }
+}
+.btn-box {
+  margin-top: 3vh;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  button {
+    width: max-content;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: relative;
+    padding: 9px clamp(16px, 5vw, 25px);
+    margin: 5px;
+    color: $text;
+    z-index: 1;
+    border-radius: 1px;
+    border: 1px solid rgba(128, 120, 120, 0.596);
+    background-color: rgba(61, 56, 56, 0.295);
+    &.now {
+      color: #fff;
+      background-color: rgb(0, 0, 0);
+    }
+    &::after {
+      // z-index: -1;
+      // content: '';
+      // width: 100%;
+      // height: 100%;
+      // position: absolute;
+      // top: 0;
+      // left: 0;
+      // background-color: rgba(61, 56, 56, 0.295);
+      // filter: blur(3px);
+    }
+    &:hover {
+      transform: translateY(-2px);
+      color: white;
+      background-color: hsl(0, 0%, 0%);
+      border-color: rgba(170, 167, 168, 0.144);
+      &.now {
+      }
+      &::after {
+        filter: blur(0px);
+        background-color: rgba(0, 0, 0, 0.938);
+      }
+    }
+    &:active {
+      transform: translateY(1px);
     }
   }
 }

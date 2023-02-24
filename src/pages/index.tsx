@@ -4,7 +4,7 @@ import '../styles/global.scss';
 import '../styles/index.scss';
 import gsap from 'gsap';
 import { Link } from 'gatsby';
-// import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ArrowCircleDown } from 'iconsax-react';
 import useStoreContext from '@/context/context';
 import { graphql } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
@@ -151,8 +151,15 @@ export default function Home(query: any) {
               </div>
             </div>
           </div>
+          <a href="#best">
+            <ArrowCircleDown
+              size="44"
+              color="#ffffffd3"
+              className="arrow-down"
+            />
+          </a>
         </section>
-        <section className="best">
+        <section className="best" id="best">
           <h2>Best seller of the month</h2>
           <div className="best-details">
             <div className={`img-box image0`}>

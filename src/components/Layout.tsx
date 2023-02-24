@@ -1,26 +1,26 @@
-import '../styles/layout.scss';
 import { Link } from 'gatsby';
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import useStoreContext from '@/context/context';
-import about from '../icons/about.png';
-import home from '../icons/home.png';
-import store from '../icons/store.png';
-import wishlist from '../icons/wishlist.png';
-import cart from '../icons/shopping-cart.png';
-import IG from '../icons/instagram.png';
-import Twitter from '../icons/twitter.png';
-import Mail from '../icons/mail.png';
-import { statusProp } from 'type';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { statuses } from 'type';
+import useStoreContext from '@/context/context';
+import about from '../assets/icons/about.png';
+import home from '../assets/icons/home.png';
+import store from '../assets/icons/store.png';
+import wishlist from '../assets/icons/wishlist.png';
+import cart from '../assets/icons/shopping-cart.png';
+import IG from '../assets/icons/instagram.png';
+import Twitter from '../assets/icons/twitter.png';
+import Mail from '../assets/icons/mail.png';
+
+import '../styles/layout.scss';
 interface prop {
   children: JSX.Element;
   page: 'home' | 'about' | 'products' | 'wishlist' | 'cart' | 'none';
 }
 const Layout = ({ children, page }: prop) => {
   gsap.registerPlugin(ScrollTrigger);
-  const { currentCheckout, resettingStatus, statArray } = useStoreContext();
+  const { currentCheckout } = useStoreContext();
+
   useEffect(() => {
     if (page === 'wishlist' || page === 'products' || page === 'cart') {
       ScrollTrigger.create({
@@ -60,7 +60,6 @@ const Layout = ({ children, page }: prop) => {
         paused: true,
         repeat: -1,
       });
-
       logos.forEach((logo, i) => {
         reveal.to(logoBox, {
           y: i * -174,
@@ -71,22 +70,8 @@ const Layout = ({ children, page }: prop) => {
       reveal.play();
     }
   });
-  useEffect(() => {
-    const interv = setInterval(() => {
-      statArray.length > 0 ? removeNotif() : clearInterval(interv);
-    }, 2500);
-  }, [statArray.length]);
-
-  const removeNotif = () => {
-    const item0 = document.querySelector(`.item0`);
-    gsap.to(item0, {
-      ease: 'none',
-      duration: 0.5,
-      opacity: 0,
-    });
-    resettingStatus();
-  };
   const classes = `children ` + (page === 'about' ? '' : page);
+
   return (
     <>
       <header className={page}>
@@ -131,29 +116,7 @@ const Layout = ({ children, page }: prop) => {
         </ul>
       </header>
       <section className={classes}>
-        <div className="msg">
-          {statArray.map((item: string, index: number) => {
-            if (index === 0) {
-              return (
-                <div
-                  className={`item${index}  ${
-                    item === statuses.ITEM_ADDED ||
-                    item === statuses.ITEM_DELETED
-                      ? 'success'
-                      : 'error'
-                  }`}
-                  key={index}
-                >
-                  {item}
-                </div>
-              );
-            }
-          })}
-
-          {/* ) : (
-            <></>
-          )} */}
-        </div>
+        <div className="msg"></div>
         {children}
       </section>
 

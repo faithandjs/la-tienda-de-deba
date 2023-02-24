@@ -1,3 +1,4 @@
+// import notification from '@/utils/notifiction';
 import {
   createContext,
   useContext,
@@ -7,7 +8,7 @@ import {
   useState,
 } from 'react';
 import Client from 'shopify-buy';
-import { productProp, cartProp, statuses, statusProp } from '../../type';
+import { productProp, cartProp, statuses } from '../../type';
 interface contextProp {
   children: JSX.Element;
 }
@@ -16,8 +17,17 @@ const client = Client.buildClient({
   domain: process.env.GATSBY_SHOPIFY_STORE_URL!,
   storefrontAccessToken: process.env.GATSBY_STOREFRONT_ACCESS_TOKEN!,
 });
-
-const StoreContext = createContext<any>(null);
+interface contextProps {
+  addToCart: ({ quantity, variant }: cartProp) => Promise<void>;
+  passed: React.MutableRefObject<boolean>;
+  deleteFromCart: (lineItemIdsToRemove: string[]) => Promise<void>;
+  currentCheckout: any;
+  editWishlist: (product: productProp) => void;
+  wishlist: productProp[];
+  setfilling: (title: string) => '#fc0000e7' | 'transparent';
+  submitting: boolean;
+}
+const StoreContext = createContext({} as contextProps);
 const { Provider } = StoreContext;
 
 export const Context = ({ children }: contextProp) => {
@@ -28,22 +38,9 @@ export const Context = ({ children }: contextProp) => {
   const [checkoutID, setCheckoutID] = useState<any>();
   const [currentCheckout, setCurrentCheckout] = useState<any>('');
   const [wishlist, setWishlist] = useState<productProp[]>([]);
-
+  const [submitting, setSubmitting] = useState(false);
   const initialSet = useRef(false);
-  const [statArray, setStatArray] = useState<string[]>([]);
   const passed = useRef(false);
-  const msg_no = useRef(-1);
-
-  const settingStatus = (stat = statuses.LOADING) => {
-    setStatArray([...statArray, stat]);
-  };
-  const resettingStatus = () => {
-    const temp = statArray;
-    temp.shift();
-    if (temp !== undefined) {
-      setStatArray(temp);
-    }
-  };
 
   const setfilling = (title: string) => {
     let fill: '#fc0000e7' | 'transparent' = 'transparent';
@@ -86,9 +83,7 @@ export const Context = ({ children }: contextProp) => {
           settingCheckout(checkout);
         });
       }
-    } catch (e) {
-      // console.log(e);
-    }
+    } catch (e) {}
   };
   useEffect(() => {
     if (browser) {
@@ -103,6 +98,7 @@ export const Context = ({ children }: contextProp) => {
   }, [wishlist, currentCheckout]);
 
   const addToCart = async ({ quantity, variant }: cartProp) => {
+    setSubmitting(true);
     if (!initialSet.current) initialSet.current = true;
 
     if (typeof checkoutID === 'undefined') {
@@ -116,23 +112,16 @@ export const Context = ({ children }: contextProp) => {
         quantity: quantity,
       },
     ];
-    try {
-      await client.checkout
-        .addLineItems(checkoutID, lineItemsToAdd)
-        .then((checkout) => {
-          settingCheckout(checkout);
-        });
-      const id = ++msg_no.current;
-      msg_no.current = id;
-      const stat: statuses = statuses.ITEM_ADDED;
-      settingStatus(stat);
-    } catch (e) {
-      const id = ++msg_no.current;
-      msg_no.current = id;
-      const stat: statuses = statuses.ITEM_NOT_ADDED;
-      settingStatus(stat);
-      // console.log(e);
-    }
+
+    await client.checkout
+      .addLineItems(checkoutID, lineItemsToAdd)
+      .then((checkout) => {
+        settingCheckout(checkout);
+        console.log('success');
+        //toast
+      })
+      .catch((e) => console.log('flop', e));
+    setSubmitting(false);
   };
   const editWishlist = (product: productProp) => {
     if (!initialSet.current) initialSet.current = true;
@@ -161,23 +150,14 @@ export const Context = ({ children }: contextProp) => {
       return;
     }
 
-    // const id = ++msg_no.current;
-    try {
-      await client.checkout
-        .removeLineItems(checkoutID, lineItemIdsToRemove)
-        .then((checkout) => {
-          settingCheckout(checkout);
-        });
-      const id = ++msg_no.current;
-      msg_no.current = id;
-      const stat: statuses = statuses.ITEM_DELETED;
-      settingStatus(stat);
-    } catch (e) {
-      const id = ++msg_no.current;
-      msg_no.current = id;
-      const stat: statuses = statuses.ITEM_NOT_DELETED;
-      settingStatus(stat);
-    }
+    await client.checkout
+      .removeLineItems(checkoutID, lineItemIdsToRemove)
+      .then((checkout) => {
+        settingCheckout(checkout);
+        console.log('success');
+        //toast
+      })
+      .catch((e) => console.log('flop', e));
   };
 
   const value = useMemo(
@@ -189,8 +169,7 @@ export const Context = ({ children }: contextProp) => {
       editWishlist,
       wishlist,
       setfilling,
-      statArray,
-      resettingStatus,
+      submitting,
     }),
     [
       addToCart,
@@ -200,8 +179,7 @@ export const Context = ({ children }: contextProp) => {
       editWishlist,
       wishlist,
       setfilling,
-      statArray,
-      resettingStatus,
+      submitting,
     ],
   );
   return <Provider value={value}>{children}</Provider>;

@@ -8,8 +8,10 @@ import Amount from '@/components/Amount';
 import { graphql } from 'gatsby';
 import ProductCard from '@/components/ProductCard';
 import { navigate } from 'gatsby';
-import next from '../icons/next.png';
-import left_arrow from '../icons/left-arrow.png';
+import next from '../Assets/icons/next.png';
+import left_arrow from '../Assets/icons/left-arrow.png';
+import { PaystackButton, usePaystackPayment } from 'react-paystack';
+import GetEmailandName from '@/components/GetEmailandName';
 
 interface prop {
   pageContext: { product: productProp };
@@ -20,7 +22,7 @@ interface prop {
   };
 }
 const Product = ({ pageContext, data }: prop) => {
-  const { addToCart, setfilling } = useStoreContext();
+  const { addToCart, setfilling, submitting } = useStoreContext();
   const {
     description,
     featuredImage,
@@ -30,6 +32,7 @@ const Product = ({ pageContext, data }: prop) => {
     variants,
     tags,
   } = pageContext.product.node;
+  const [opened, setOpened] = useState(false);
   const [options, setOptions] = useState<any[]>([]);
   const [displayOptions, setDisplayOptions] = useState<
     { title: string; options: string[] }[]
@@ -40,6 +43,9 @@ const Product = ({ pageContext, data }: prop) => {
   const fill = setfilling(title);
   const tag = useRef(tags[Math.round(Math.random() * (tags.length - 1))]);
   const recommendedArray = useRef<productProp[]>([]);
+  const details = localStorage.getItem('details')
+    ? JSON.parse(localStorage.getItem('details')!)
+    : null;
   const settingOptions = () => {
     let holderArray: any[] = [];
     variants?.map((item) => {
@@ -125,6 +131,7 @@ const Product = ({ pageContext, data }: prop) => {
     const arr = str.split(' ');
     return arr.filter((word) => word !== '').length;
   }
+
   useEffect(() => {
     let holder: string[] = [];
     variants![0].selectedOptions.map((item) => holder.push(item.name));
@@ -422,11 +429,33 @@ const Product = ({ pageContext, data }: prop) => {
                   addingVariant();
                 }}
               >
-                add
+                {!submitting ? 'add' : '.....'}
               </button>
-              {/* <a href="https://paystack.com/pay/3s1i9pc79s"> */}
-                <button className="now">pay now</button>
-              {/* </a> */}
+              {details ? (
+                <PaystackButton
+                  className="now"
+                  {...{
+                    amount: 10000,
+                    email: details?.email,
+                    metadata: {
+                      name: details?.name,
+                      // phone: '+2349043126914',
+                      custom_fields: [],
+                    },
+                    publicKey: process.env.GATSBY_PAYSTACK_PUBLIC_KEY!,
+                    text: 'Pay Now',
+                  }}
+                />
+              ) : (
+                <button
+                  className="now"
+                  onClick={() => {
+                    setOpened(true);
+                  }}
+                >
+                  pay now
+                </button>
+              )}
             </div>
           </section>
         </div>
@@ -447,6 +476,14 @@ const Product = ({ pageContext, data }: prop) => {
             )}
           </div>
         </section>
+        <GetEmailandName
+          {...{
+            opened,
+            close() {
+              setOpened(false);
+            },
+          }}
+        />
       </>
     </Layout>
   );

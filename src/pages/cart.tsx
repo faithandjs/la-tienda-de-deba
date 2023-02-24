@@ -5,7 +5,9 @@ import gsap from 'gsap';
 import useStoreContext from '@/context/context';
 import { Link } from 'gatsby';
 import { useEffect, useRef, useState } from 'react';
-import X from '../icons/close.png';
+import X from '../Assets/icons/close.png';
+import { PaystackButton } from 'react-paystack';
+import GetEmailandName from '@/components/GetEmailandName';
 
 interface prop {
   title: string;
@@ -26,7 +28,10 @@ interface prop {
 const Cart = () => {
   const { deleteFromCart, currentCheckout } = useStoreContext();
   const [currentI, setCurrentI] = useState<{ id: string; title: string }>();
-
+  const [opened, setOpened] = useState(false);
+  const details = localStorage.getItem('details')
+    ? JSON.parse(localStorage.getItem('details')!)
+    : null;
   const CartCard = ({ id, quantity, variant, title }: prop) => {
     const seperate = () => {
       const arr = Array.from(variant.title);
@@ -126,8 +131,30 @@ const Cart = () => {
           currentCheckout.lineItems.length > 0 && (
             <div className="checkout">
               <Amount amount={currentCheckout.totalPriceV2.amount}></Amount>
-              {/* <a href="https://paystack.com/pay/3s1i9pc79s"></a> */}
-              <button>checkout</button>
+              {details ? (
+                <PaystackButton
+                  className="now"
+                  {...{
+                    amount: 10000,
+                    email: details?.email,
+                    metadata: {
+                      name: details?.name,
+                      custom_fields: [],
+                    },
+                    publicKey: process.env.GATSBY_PAYSTACK_PUBLIC_KEY!,
+                    text: 'checkout',
+                  }}
+                />
+              ) : (
+                <button
+                  className="now"
+                  onClick={() => {
+                    setOpened(true);
+                  }}
+                >
+                  checkout
+                </button>
+              )}
             </div>
           )
         ) : (
@@ -174,6 +201,14 @@ const Cart = () => {
             </div>
           </div>
         </div>
+        <GetEmailandName
+          {...{
+            opened,
+            close() {
+              setOpened(false);
+            },
+          }}
+        />
       </section>
     </Layout>
   );
