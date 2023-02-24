@@ -8,8 +8,8 @@ import Amount from '@/components/Amount';
 import { graphql } from 'gatsby';
 import ProductCard from '@/components/ProductCard';
 import { navigate } from 'gatsby';
-import next from '../Assets/icons/next.png';
-import left_arrow from '../Assets/icons/left-arrow.png';
+import next from '../assets/icons/next.png';
+import left_arrow from '../assets/icons/left-arrow.png';
 import { PaystackButton, usePaystackPayment } from 'react-paystack';
 import GetEmailandName from '@/components/GetEmailandName';
 

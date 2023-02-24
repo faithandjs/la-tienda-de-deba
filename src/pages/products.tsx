@@ -9,8 +9,8 @@ import { useEffect, useRef, useState } from 'react';
 import { type } from 'os';
 import gsap from 'gsap';
 // import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import search from '../Assets/icons/search.png';
-import X from '../Assets/icons/close.png';
+import search from '../assets/icons/search.png';
+import X from '../assets/icons/close.png';
 
 const Products = ({ data }: productsProp) => {
   // gsap.registerPlugin(ScrollTrigger);
