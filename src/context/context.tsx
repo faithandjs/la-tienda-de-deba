@@ -1,4 +1,5 @@
 // import notification from '@/utils/notifiction';
+import notification from '@/utils/notifiction';
 import {
   createContext,
   useContext,
@@ -119,8 +120,11 @@ export const Context = ({ children }: contextProp) => {
         settingCheckout(checkout);
         console.log('success');
         //toast
+        notification({ message: 'added successfully', type: 'success' });
       })
-      .catch((e) => console.log('flop', e));
+      .catch((e) =>
+        notification({ message: 'add unsuccessful', type: 'error' }),
+      );
     setSubmitting(false);
   };
   const editWishlist = (product: productProp) => {
@@ -155,9 +159,12 @@ export const Context = ({ children }: contextProp) => {
       .then((checkout) => {
         settingCheckout(checkout);
         console.log('success');
-        //toast
+
+        notification({ message: 'deleted successfully', type: 'success' });
       })
-      .catch((e) => console.log('flop', e));
+      .catch((e) =>
+        notification({ message: 'delete unsuccessful', type: 'error' }),
+      );
   };
 
   const value = useMemo(

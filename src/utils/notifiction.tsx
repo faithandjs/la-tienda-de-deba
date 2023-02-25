@@ -1,41 +1,41 @@
 import { showNotification } from '@mantine/notifications';
-import err from '../assets/images/error.svg';
 
 const notification = ({
   message,
-  id,
-}: {
+  type,
+}: // id,
+{
   message: string;
-  id: 'error' | 'success';
+  type: 'error' | 'success';
 }) => {
-  console.log('here', message, id);
+  console.log('here', message, type);
   return showNotification({
     styles: (theme) => ({
       root: {
         backgroundColor: theme.white,
-        borderColor: id === 'error' ? theme.colors.red : theme.colors.green,
+        borderColor: type === 'error' ? theme.colors.red : theme.colors.green,
         '&::before': {
           opacity: 0.3,
           backgroundColor:
-            id === 'error' ? theme.colors.red : theme.colors.green,
+            type === 'error' ? theme.colors.red : theme.colors.green,
           width: '100%',
           height: '100%',
-          // top: 0,
-          // bottom: 0,
-          // left: 0,
-          // right: 0,
         },
         '.__mantine-ref-icon': {
           backgroundColor: 'unset',
         },
       },
+      body: {
+        // textTransform: 'capitalize',
+        fontStyle: 'oblique',
+      },
     }),
     message: message,
-    icon: id === 'error' ? <img src={err} alt="error" /> : <></>,
-    autoClose: false,
+    autoClose: 3000,
   });
 };
 
 export default notification;
 
+// icon: id === 'error' ? <img src={err} alt="error" /> : <></>,
 // icon: id === 'error' ? 'red' : 'green',
