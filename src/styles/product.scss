@@ -248,7 +248,7 @@
       // background-color: rgba(61, 56, 56, 0.295);
       // filter: blur(3px);
     }
-    &:hover {
+    &:enabled:hover {
       transform: translateY(-2px);
       color: white;
       background-color: hsl(0, 0%, 0%);
@@ -259,6 +259,10 @@
         filter: blur(0px);
         background-color: rgba(0, 0, 0, 0.938);
       }
+    }
+    &:disabled {
+      cursor: not-allowed;
+      padding: 6px clamp(16px, 5vw, 25px);
     }
     &:active {
       transform: translateY(1px);

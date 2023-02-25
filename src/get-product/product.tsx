@@ -12,6 +12,7 @@ import next from '../assets/icons/next.png';
 import left_arrow from '../assets/icons/left-arrow.png';
 import { PaystackButton, usePaystackPayment } from 'react-paystack';
 import GetEmailandName from '@/components/GetEmailandName';
+import { Loader } from '@mantine/core';
 
 interface prop {
   pageContext: { product: productProp };
@@ -432,12 +433,17 @@ const Product = ({ pageContext, data }: prop) => {
             <div className="btn-box">
               <button
                 type="submit"
+                disabled={submitting}
                 onClick={(e) => {
                   e.preventDefault();
                   addingVariant();
                 }}
               >
-                {!submitting ? 'add' : '.....'}
+                {!submitting ? (
+                  'add'
+                ) : (
+                  <Loader color="gray" size="xs" variant="bars" />
+                )}
               </button>
               {details ? (
                 <PaystackButton
