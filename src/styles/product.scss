@@ -233,6 +233,8 @@
     border-radius: 1px;
     border: 1px solid rgba(128, 120, 120, 0.596);
     background-color: rgba(61, 56, 56, 0.295);
+    transition: width;
+    transition-duration: 200ms;
     &.now {
       color: #fff;
       background-color: rgb(0, 0, 0);
@@ -264,9 +266,13 @@
       cursor: not-allowed;
       padding: 6px clamp(16px, 5vw, 25px);
     }
-    &:active {
-      transform: translateY(1px);
+    &:active,
+    &:target {
+      transform: translateY(2px) !important;
     }
+    // &: {
+    //   transform: translateY(-1px);
+    // }
   }
 }
 @media screen and (min-width: 900px) {

@@ -1,5 +1,4 @@
 // import notification from '@/utils/notifiction';
-import notification from '@/utils/notifiction';
 import {
   createContext,
   useContext,
@@ -8,8 +7,9 @@ import {
   useRef,
   useState,
 } from 'react';
+import notification from '@/utils/notifiction';
 import Client from 'shopify-buy';
-import { productProp, cartProp, statuses } from '../../type';
+import { productProp, cartProp } from '../../type';
 interface contextProp {
   children: JSX.Element;
 }
@@ -36,7 +36,7 @@ export const Context = ({ children }: contextProp) => {
   const shopifyCheckoutID = 'shopify-checkout-ID';
   const shopifyCart = 'shopify-cart';
   const shopifyWishlist = 'shopify-wishlist';
-  const [checkoutID, setCheckoutID] = useState<any>();
+  const [checkoutID, setCheckoutID] = useState<any>(null);
   const [currentCheckout, setCurrentCheckout] = useState<any>('');
   const [wishlist, setWishlist] = useState<productProp[]>([]);
   const [submitting, setSubmitting] = useState(false);
@@ -52,46 +52,45 @@ export const Context = ({ children }: contextProp) => {
       : null;
     return fill;
   };
+  const savingWishlist = (savewishlist: any = wishlist) => {
+    localStorage.setItem(shopifyWishlist, JSON.stringify(savewishlist));
+  };
+
+  //SETT
   const settingCheckout = (checkout: any) => {
     if (browser) {
       localStorage.setItem(shopifyCheckoutID, checkout.id);
     }
     setCurrentCheckout(checkout);
   };
-  const savingWishlist = (savewishlist: any = wishlist) => {
-    localStorage.setItem(shopifyWishlist, JSON.stringify(savewishlist));
-  };
-  const gettingCheckoutID = async () => {
-    try {
-      const oldCheckoutId = localStorage.getItem(shopifyCheckoutID)
-        ? localStorage.getItem(shopifyCheckoutID)
-        : null;
-      const oldCart = localStorage.getItem(shopifyCart)
-        ? JSON.parse(localStorage.getItem(shopifyCart)!)
-        : [];
-      const oldWishlist = localStorage.getItem(shopifyWishlist)
-        ? JSON.parse(localStorage.getItem(shopifyWishlist)!)
-        : [];
 
-      if (oldCheckoutId) {
-        setCheckoutID(oldCheckoutId);
-        if (oldWishlist.length > 1) setWishlist(oldWishlist);
-        await client.checkout.fetch(oldCheckoutId).then((checkout) => {
-          settingCheckout(checkout);
-        });
-      } else {
-        await client.checkout.create().then((checkout) => {
-          settingCheckout(checkout);
-        });
-      }
-    } catch (e) {}
+  const gettingCheckoutID = async () => {
+    const oldCheckoutId = localStorage.getItem(shopifyCheckoutID)
+      ? localStorage.getItem(shopifyCheckoutID)
+      : null;
+    const oldWishlist = localStorage.getItem(shopifyWishlist)
+      ? JSON.parse(localStorage.getItem(shopifyWishlist)!)
+      : [];
+
+    if (oldCheckoutId) {
+      setCheckoutID(oldCheckoutId);
+      if (oldWishlist.length > 1) setWishlist(oldWishlist);
+      await client.checkout.fetch(oldCheckoutId).then((checkout) => {
+        settingCheckout(checkout);
+      });
+    } else {
+      await client.checkout.create().then((checkout) => {
+        settingCheckout(checkout);
+      });
+    }
   };
   useEffect(() => {
-    if (browser) {
+    if (browser && !checkoutID) {
       gettingCheckoutID();
       passed.current = true;
     }
-  }, [typeof checkoutID === 'undefined']);
+  }, [localStorage.getItem(shopifyCheckoutID)]);
+
   useEffect(() => {
     if (initialSet.current) {
       savingWishlist();
@@ -118,8 +117,6 @@ export const Context = ({ children }: contextProp) => {
       .addLineItems(checkoutID, lineItemsToAdd)
       .then((checkout) => {
         settingCheckout(checkout);
-        console.log('success');
-        //toast
         notification({ message: 'added successfully', type: 'success' });
       })
       .catch((e) =>
@@ -158,7 +155,6 @@ export const Context = ({ children }: contextProp) => {
       .removeLineItems(checkoutID, lineItemIdsToRemove)
       .then((checkout) => {
         settingCheckout(checkout);
-        console.log('success');
 
         notification({ message: 'deleted successfully', type: 'success' });
       })

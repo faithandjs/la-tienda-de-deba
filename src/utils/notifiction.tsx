@@ -8,7 +8,6 @@ const notification = ({
   message: string;
   type: 'error' | 'success';
 }) => {
-  console.log('here', message, type);
   return showNotification({
     styles: (theme) => ({
       root: {
@@ -25,6 +24,9 @@ const notification = ({
           backgroundColor: 'unset',
         },
       },
+      closeButton: {
+        '&:hover': { backgroundColor: 'rgba(248, 249, 250, .21)' },
+      },
       body: {
         // textTransform: 'capitalize',
         fontStyle: 'oblique',
@@ -36,6 +38,3 @@ const notification = ({
 };
 
 export default notification;
-
-// icon: id === 'error' ? <img src={err} alt="error" /> : <></>,
-// icon: id === 'error' ? 'red' : 'green',
