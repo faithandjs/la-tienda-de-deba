@@ -34,7 +34,7 @@ const { Provider } = StoreContext;
 export const Context = ({ children }: contextProp) => {
   const browser = typeof window !== `undefined`;
   const shopifyCheckoutID = 'shopify-checkout-ID';
-  const shopifyCart = 'shopify-cart';
+  const inLS = browser ? localStorage.getItem(shopifyCheckoutID) : null;
   const shopifyWishlist = 'shopify-wishlist';
   const [checkoutID, setCheckoutID] = useState<any>(null);
   const [currentCheckout, setCurrentCheckout] = useState<any>('');
@@ -89,7 +89,7 @@ export const Context = ({ children }: contextProp) => {
       gettingCheckoutID();
       passed.current = true;
     }
-  }, [localStorage.getItem(shopifyCheckoutID)]);
+  }, [inLS]);
 
   useEffect(() => {
     if (initialSet.current) {
