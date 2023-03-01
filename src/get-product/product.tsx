@@ -1,18 +1,17 @@
 import Layout from '@/components/Layout';
 import { useEffect, useRef, useState } from 'react';
-import { productDetails, productProp } from 'type';
+import { Loader } from '@mantine/core';
+import { productProp } from 'type';
 import useStoreContext from '@/context/context';
 import Heart from '../components/Heart';
 import '../styles/product.scss';
 import Amount from '@/components/Amount';
 import { graphql } from 'gatsby';
 import ProductCard from '@/components/ProductCard';
-import { navigate } from 'gatsby';
 import next from '../assets/icons/next.png';
 import left_arrow from '../assets/icons/left-arrow.png';
-import { PaystackButton, usePaystackPayment } from 'react-paystack';
+import { PaystackButton } from 'react-paystack';
 import GetEmailandName from '@/components/GetEmailandName';
-import { Loader } from '@mantine/core';
 
 interface prop {
   pageContext: { product: productProp };
@@ -449,7 +448,7 @@ const Product = ({ pageContext, data }: prop) => {
                 <PaystackButton
                   className="now"
                   {...{
-                    amount: 10000,
+                    amount: 0,
                     email: details?.email,
                     metadata: {
                       name: details?.name,

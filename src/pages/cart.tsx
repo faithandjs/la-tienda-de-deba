@@ -143,7 +143,7 @@ const Cart = () => {
                 <PaystackButton
                   className="now"
                   {...{
-                    amount: 10000,
+                    amount: 0,
                     email: details?.email,
                     metadata: {
                       name: details?.name,
