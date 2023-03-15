@@ -14,7 +14,7 @@ export default function GetEmailandName({
   const [touched, setTouched] = useState(false);
 
   const initializePayment = usePaystackPayment({
-    amount: 0,
+    amount: 1,
     email: details?.email,
     firstname: details?.name,
     publicKey: process.env.GATSBY_PAYSTACK_PUBLIC_KEY!,

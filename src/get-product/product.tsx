@@ -139,8 +139,11 @@ const Product = ({ pageContext, data }: prop) => {
         ? JSON.parse(localStorage.getItem('details')!)
         : null,
     );
-  }, []);
+  });
   useEffect(() => {
+    if (options.length < 1) {
+      settingOptions();
+    }
     let holder: string[] = [];
     variants![0].selectedOptions.map((item) => holder.push(item.name));
     setNamesArray(holder);
@@ -155,11 +158,6 @@ const Product = ({ pageContext, data }: prop) => {
         recommendedArray.current = temp;
       }
     });
-  }, []);
-  useEffect(() => {
-    if (options.length < 1) {
-      settingOptions();
-    }
   }, []);
   useEffect(() => {
     if (options.length > 0) {
@@ -448,7 +446,7 @@ const Product = ({ pageContext, data }: prop) => {
                 <PaystackButton
                   className="now"
                   {...{
-                    amount: 0,
+                    amount: 1,
                     email: details?.email,
                     metadata: {
                       name: details?.name,

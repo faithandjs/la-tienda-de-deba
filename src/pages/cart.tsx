@@ -39,7 +39,7 @@ const Cart = () => {
         ? JSON.parse(localStorage.getItem('details')!)
         : null,
     );
-  }, []);
+  });
   const CartCard = ({ id, quantity, variant, title }: prop) => {
     const seperate = () => {
       const arr = Array.from(variant.title);
@@ -143,7 +143,7 @@ const Cart = () => {
                 <PaystackButton
                   className="now"
                   {...{
-                    amount: 0,
+                    amount: 1,
                     email: details?.email,
                     metadata: {
                       name: details?.name,
