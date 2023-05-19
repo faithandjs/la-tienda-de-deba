@@ -1,13 +1,14 @@
-import Layout from '@/components/Layout';
-import '../styles/cart.scss';
-import Amount from '@/components/Amount';
 import gsap from 'gsap';
-import useStoreContext from '@/context/context';
-import { Link } from 'gatsby';
-import { useEffect, useRef, useState } from 'react';
-import X from '../assets/icons/close.png';
+import { useEffect, useState } from 'react';
 import { PaystackButton } from 'react-paystack';
+import { Link } from 'gatsby';
+
+import Layout from '@/components/Layout';
+import Amount from '@/components/Amount';
+import useStoreContext from '@/context/context';
 import GetEmailandName from '@/components/GetEmailandName';
+
+import X from '../assets/icons/close.png';
 
 interface prop {
   title: string;
@@ -26,6 +27,7 @@ interface prop {
 }
 
 const Cart = () => {
+  const browser = typeof window === 'object';
   const { deleteFromCart, currentCheckout } = useStoreContext();
   const [currentI, setCurrentI] = useState<{ id: string; title: string }>();
   const [opened, setOpened] = useState(false);
@@ -33,13 +35,15 @@ const Cart = () => {
     name: string;
     email: string;
   }>(null);
+
   useEffect(() => {
     setDetails(
       localStorage.getItem('details')
         ? JSON.parse(localStorage.getItem('details')!)
         : null,
     );
-  });
+  }, [browser]);
+
   const CartCard = ({ id, quantity, variant, title }: prop) => {
     const seperate = () => {
       const arr = Array.from(variant.title);
@@ -108,6 +112,7 @@ const Cart = () => {
       </div>
     );
   };
+
   return (
     <Layout page="cart">
       <section className="cart">
@@ -191,7 +196,7 @@ const Cart = () => {
               </button>
               <button
                 onClick={() => {
-                  deleteFromCart([currentI?.id]);
+                  deleteFromCart([currentI!.id]);
                   gsap
                     .timeline()
                     .to('.modal', {

@@ -1,4 +1,5 @@
 import type { GatsbyConfig } from 'gatsby';
+
 require('dotenv').config();
 const config: GatsbyConfig = {
   plugins: [
@@ -29,6 +30,7 @@ const config: GatsbyConfig = {
       },
     },
   ],
+
   jsxRuntime: `automatic`,
 };
 

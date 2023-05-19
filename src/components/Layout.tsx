@@ -2,7 +2,9 @@ import { Link } from 'gatsby';
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import useStoreContext from '@/context/context';
+
 import about from '../assets/icons/about.png';
 import home from '../assets/icons/home.png';
 import store from '../assets/icons/store.png';

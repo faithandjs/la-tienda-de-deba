@@ -1,17 +1,21 @@
-import Layout from '@/components/Layout';
-import { useEffect, useRef, useState } from 'react';
+import { graphql } from 'gatsby';
 import { Loader } from '@mantine/core';
-import { productProp } from 'type';
+import { useEffect, useRef, useState } from 'react';
+import { PaystackButton } from 'react-paystack';
+
+import Layout from '@/components/Layout';
 import useStoreContext from '@/context/context';
 import Heart from '../components/Heart';
-import '../styles/product.scss';
 import Amount from '@/components/Amount';
-import { graphql } from 'gatsby';
 import ProductCard from '@/components/ProductCard';
+import GetEmailandName from '@/components/GetEmailandName';
+
+import { productProp } from 'type';
+
 import next from '../assets/icons/next.png';
 import left_arrow from '../assets/icons/left-arrow.png';
-import { PaystackButton } from 'react-paystack';
-import GetEmailandName from '@/components/GetEmailandName';
+
+import '../styles/product.scss';
 
 interface prop {
   pageContext: { product: productProp };
@@ -23,6 +27,7 @@ interface prop {
 }
 const Product = ({ pageContext, data }: prop) => {
   const { addToCart, setfilling, submitting } = useStoreContext();
+  const browser = typeof window === 'object';
   const {
     description,
     featuredImage,
@@ -32,6 +37,7 @@ const Product = ({ pageContext, data }: prop) => {
     variants,
     tags,
   } = pageContext.product.node;
+
   const [opened, setOpened] = useState(false);
   const [options, setOptions] = useState<any[]>([]);
   const [displayOptions, setDisplayOptions] = useState<
@@ -40,13 +46,14 @@ const Product = ({ pageContext, data }: prop) => {
   const [selected, setSelected] = useState<any>({});
   const [namesArray, setNamesArray] = useState<string[]>([]);
   const [quantity, setQuantity] = useState<number>(1);
-  const fill = setfilling(title);
-  const tag = useRef(tags[Math.round(Math.random() * (tags.length - 1))]);
-  const recommendedArray = useRef<productProp[]>([]);
   const [details, setDetails] = useState<null | {
     name: string;
     email: string;
   }>(null);
+
+  const tag = useRef(tags[Math.round(Math.random() * (tags.length - 1))]);
+  const recommendedArray = useRef<productProp[]>([]);
+  const fill = setfilling(title);
 
   const settingOptions = () => {
     let holderArray: any[] = [];
@@ -133,13 +140,15 @@ const Product = ({ pageContext, data }: prop) => {
     const arr = str.split(' ');
     return arr.filter((word) => word !== '').length;
   }
+
   useEffect(() => {
     setDetails(
       localStorage.getItem('details')
         ? JSON.parse(localStorage.getItem('details')!)
         : null,
     );
-  });
+  }, [browser]);
+
   useEffect(() => {
     if (options.length < 1) {
       settingOptions();
@@ -159,11 +168,13 @@ const Product = ({ pageContext, data }: prop) => {
       }
     });
   }, []);
+
   useEffect(() => {
     if (options.length > 0) {
       arrangingOptions();
     }
   }, [options]);
+
   const navigate = (dir: 'prev' | 'next' | number) => {
     const allImgs = document.querySelectorAll('.images .img-box');
     const one = document.querySelector('.images .one');
@@ -231,6 +242,7 @@ const Product = ({ pageContext, data }: prop) => {
       }
     }
   };
+
   return (
     <Layout page="none">
       <>
@@ -320,7 +332,7 @@ const Product = ({ pageContext, data }: prop) => {
                             : innerItem.toLowerCase();
                         let returnee: JSX.Element = <></>;
 
-                        if (selected !== {}) {
+                        if (Object.keys(selected).length !== 0) {
                           const element = document.querySelector(
                             `.${innerItem.replaceAll(' ', '')}`,
                           )?.classList;

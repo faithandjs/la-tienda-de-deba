@@ -1,14 +1,15 @@
-import Layout from '@/components/Layout';
-import '../styles/about.scss';
 import gsap from 'gsap';
+import { graphql } from 'gatsby';
 import { useEffect } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { graphql } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+
+import Layout from '@/components/Layout';
 
 const About = (query: any) => {
   const image = getImage(query.data.file);
   gsap.registerPlugin(ScrollTrigger);
+
   useEffect(() => {
     let founder = gsap.timeline();
     if (window.matchMedia('( max-width: 924px)').matches) {
@@ -49,6 +50,7 @@ const About = (query: any) => {
       { opacity: 1 },
     );
   });
+
   return (
     <Layout page="about">
       <>
@@ -133,4 +135,3 @@ export const pageQuery = graphql`
     }
   }
 `;
-

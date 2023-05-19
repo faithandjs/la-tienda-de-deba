@@ -1,13 +1,13 @@
 import { graphql } from 'gatsby';
+import { useRef, useState } from 'react';
+import gsap from 'gsap';
+
 import ProductCard from '@/components/ProductCard';
-import { productsProp, productProp, productDetails } from 'type';
 import Layout from '@/components/Layout';
 import useStoreContext from '@/context/context';
-import '../styles/products.scss';
-import { useEffect, useRef, useState } from 'react';
-import { type } from 'os';
-import gsap from 'gsap';
-// import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+import { productsProp, productProp, productDetails } from 'type';
+
 import search from '../assets/icons/search.png';
 import X from '../assets/icons/close.png';
 

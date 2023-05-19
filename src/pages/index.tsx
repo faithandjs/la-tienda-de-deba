@@ -1,22 +1,28 @@
-import Layout from '@/components/Layout';
-import { useEffect, useState } from 'react';
-import '../styles/global.scss';
-import '../styles/index.scss';
 import gsap from 'gsap';
-import { Link } from 'gatsby';
+import { Link, graphql } from 'gatsby';
+import { useEffect, useState } from 'react';
 import { ArrowCircleDown } from 'iconsax-react';
-import useStoreContext from '@/context/context';
-import { graphql } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+
+import useStoreContext from '@/context/context';
+import Layout from '@/components/Layout';
 import Amount from '@/components/Amount';
 import Sale from '@/components/sale';
+
+import '../styles/global.scss';
+import '../styles/index.scss';
+import '../styles/about.scss';
+import '../styles/cart.scss';
+import '../styles/products.scss';
+import '../styles/wishlist.scss';
+
 export default function Home(query: any) {
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
   const [mins, setMins] = useState(0);
   const [secs, setSecs] = useState(0);
   const [mnth, setMnth] = useState('');
-  // gsap.registerPlugin(ScrollTrigger);
+
   const image = getImage(query.data.file);
   const { handle, media, tags, title, priceRangeV2 } =
     query.data.shopifyProduct;
@@ -126,6 +132,7 @@ export default function Home(query: any) {
     if (num.toString().length === 1) return `0` + num;
     return num;
   };
+
   return (
     <Layout page="home">
       <>

@@ -1,7 +1,8 @@
-import { productCardProp } from 'type';
-import Heart from './Heart';
 import { Link } from 'gatsby';
+
 import Amount from './Amount';
+
+import { productCardProp } from 'type';
 
 export const WishlistCard = ({ product }: productCardProp) => {
   const { featuredImage, priceRangeV2, title, handle } = product.node;

@@ -7,8 +7,10 @@ import {
   useRef,
   useState,
 } from 'react';
-import notification from '@/utils/notifiction';
 import Client from 'shopify-buy';
+
+import notification from '@/utils/notifiction';
+
 import { productProp, cartProp } from '../../type';
 interface contextProp {
   children: JSX.Element;
@@ -28,14 +30,17 @@ interface contextProps {
   setfilling: (title: string) => '#fc0000e7' | 'transparent';
   submitting: boolean;
 }
+
 const StoreContext = createContext({} as contextProps);
+
 const { Provider } = StoreContext;
 
 export const Context = ({ children }: contextProp) => {
   const browser = typeof window !== `undefined`;
   const shopifyCheckoutID = 'shopify-checkout-ID';
-  const inLS = browser ? localStorage.getItem(shopifyCheckoutID) : null;
   const shopifyWishlist = 'shopify-wishlist';
+  const inLS = browser ? localStorage.getItem(shopifyCheckoutID) : null;
+
   const [checkoutID, setCheckoutID] = useState<any>(null);
   const [currentCheckout, setCurrentCheckout] = useState<any>('');
   const [wishlist, setWishlist] = useState<productProp[]>([]);
@@ -52,11 +57,11 @@ export const Context = ({ children }: contextProp) => {
       : null;
     return fill;
   };
+
   const savingWishlist = (savewishlist: any = wishlist) => {
     localStorage.setItem(shopifyWishlist, JSON.stringify(savewishlist));
   };
 
-  //SETT
   const settingCheckout = (checkout: any) => {
     if (browser) {
       localStorage.setItem(shopifyCheckoutID, checkout.id);
@@ -64,38 +69,30 @@ export const Context = ({ children }: contextProp) => {
     setCurrentCheckout(checkout);
   };
 
+  const getNewId = async () => {
+    await client.checkout.create().then((checkout) => {
+      settingCheckout(checkout);
+    });
+  };
+
   const gettingCheckoutID = async () => {
-    const oldCheckoutId = localStorage.getItem(shopifyCheckoutID)
-      ? localStorage.getItem(shopifyCheckoutID)
-      : null;
+    const oldCheckoutId = localStorage.getItem(shopifyCheckoutID) ?? null;
     const oldWishlist = localStorage.getItem(shopifyWishlist)
       ? JSON.parse(localStorage.getItem(shopifyWishlist)!)
       : [];
 
     if (oldCheckoutId) {
       setCheckoutID(oldCheckoutId);
+
       if (oldWishlist.length > 1) setWishlist(oldWishlist);
+
       await client.checkout.fetch(oldCheckoutId).then((checkout) => {
-        settingCheckout(checkout);
+        checkout ? settingCheckout(checkout) : getNewId();
       });
     } else {
-      await client.checkout.create().then((checkout) => {
-        settingCheckout(checkout);
-      });
+      await getNewId();
     }
   };
-  useEffect(() => {
-    if (browser && !checkoutID) {
-      gettingCheckoutID();
-      passed.current = true;
-    }
-  }, [inLS]);
-
-  useEffect(() => {
-    if (initialSet.current) {
-      savingWishlist();
-    }
-  }, [wishlist, currentCheckout]);
 
   const addToCart = async ({ quantity, variant }: cartProp) => {
     setSubmitting(true);
@@ -113,17 +110,23 @@ export const Context = ({ children }: contextProp) => {
       },
     ];
 
-    await client.checkout
-      .addLineItems(checkoutID, lineItemsToAdd)
-      .then((checkout) => {
-        settingCheckout(checkout);
-        notification({ message: 'added successfully', type: 'success' });
-      })
-      .catch((e) =>
-        notification({ message: 'add unsuccessful', type: 'error' }),
-      );
+    const postVariant = async () => {
+      await client.checkout
+        .addLineItems(checkoutID, lineItemsToAdd)
+        .then((checkout) => {
+          settingCheckout(checkout);
+          // console.log('posted');
+          notification({ message: 'added successfully', type: 'success' });
+        })
+        .catch((e) => {
+          notification({ message: 'add unsuccessful', type: 'error' });
+          // console.log('not posted', e[0]);
+        });
+    };
+    await postVariant();
     setSubmitting(false);
   };
+
   const editWishlist = (product: productProp) => {
     if (!initialSet.current) initialSet.current = true;
     let tempWL: productProp[] = [];
@@ -162,6 +165,19 @@ export const Context = ({ children }: contextProp) => {
         notification({ message: 'delete unsuccessful', type: 'error' }),
       );
   };
+
+  useEffect(() => {
+    if (initialSet.current) {
+      savingWishlist();
+    }
+  }, [wishlist, currentCheckout]);
+
+  useEffect(() => {
+    if (browser && !checkoutID) {
+      gettingCheckoutID();
+      passed.current = true;
+    }
+  }, [inLS]);
 
   const value = useMemo(
     () => ({

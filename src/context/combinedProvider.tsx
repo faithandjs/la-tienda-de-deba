@@ -1,7 +1,7 @@
 import React from 'react';
-import { Context } from './context';
-
 import { NotificationsProvider } from '@mantine/notifications';
+
+import { Context } from './context';
 
 const CombinedProvider = ({ element }: any) => {
   return (

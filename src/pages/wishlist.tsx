@@ -1,8 +1,8 @@
 import Layout from '@/components/Layout';
-import '../styles/wishlist.scss';
 import useStoreContext from '@/context/context';
-import {  productProp } from 'type';
 import { WishlistCard } from '@/components/WishListCard';
+
+import { productProp } from 'type';
 
 const Wishlist = () => {
   const { wishlist, setfilling } = useStoreContext();

@@ -1,6 +1,8 @@
-import '../styles/global.scss'
 import useStoreContext from '@/context/context';
+
 import { productCardProp } from 'type';
+
+import '../styles/global.scss';
 
 const Heart = ({ product, fill }: productCardProp) => {
   const { editWishlist } = useStoreContext();
@@ -10,7 +12,7 @@ const Heart = ({ product, fill }: productCardProp) => {
       onClick={() => {
         editWishlist(product);
       }}
-      title='add to wishlist'
+      title="add to wishlist"
     >
       <svg viewBox="0 0 40 40">
         <path
